@@ -10,9 +10,10 @@ experiment with building a tool that fits my personal tastes and workflow.
 
 My initial goal is just to mess around with parsing a tiny subset of Markdown
 into Ruby objects. Once I've got that far, I'll work on a proof of concept PDF
-outputter, probably using Prawn. If I make it that far without discovering some
-obviously better tool or deciding that this is going to be a huge time sink,
-I'll re-visit this document and put together a proper release plan.
+outputter, probably using [Prawn](http://prawn.majesticseacreature.com). If I 
+make it that far without discovering some obviously better tool or deciding 
+that this is going to be a huge time sink, I'll re-visit this document and
+put together a proper release plan.
 
 ## Contributing
 
