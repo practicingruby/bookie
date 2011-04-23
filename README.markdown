@@ -15,6 +15,12 @@ make it that far without discovering some obviously better tool or deciding
 that this is going to be a huge time sink, I'll re-visit this document and
 put together a proper release plan.
 
+## Dependencies
+
+This project targets Ruby 1.9.2 exclusively, and will not run on Ruby 1.8. It
+does not rely on anything outside of Ruby 1.9.2's core and standard libraries at
+this time, but that may change in the future.
+
 ## Contributing
 
 I'm happy to accept contributions to this project, but probably won't
