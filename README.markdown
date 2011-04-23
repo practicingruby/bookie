@@ -21,3 +21,9 @@ have a formal process for doing so until I've gone beyond the proof of concept
 phase. Please do catch up with me if you have questions, suggestions, or ideas
 though. I am @seacreature on Freenode and twitter, and my email address is 
 gregory.t.brown@gmail.com.
+
+## License
+
+Bookie is Free Software, available under the GNU General Public License (v3).
+Please see the GPLv3 file for details, and feel free to contact me if you have
+any questions
