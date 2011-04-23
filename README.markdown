@@ -4,7 +4,7 @@ While I have not looked especially far and wide, I haven't found a book
 publishing toolchain that I like which both has a nice workflow AND does not
 rely on a ton of heavyweight dependencies. Since I have a real need for
 outputting nice documents in PDF, ePUB, and MOBI format, I am going to
-experiment with building a tool to do this in a way I find nice.
+experiment with building a tool that fits my personal tastes and workflow.
 
 ## Roadmap
 
