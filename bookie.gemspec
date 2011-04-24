@@ -12,7 +12,9 @@ Gem::Specification.new do |s|
                   "processor. For now it's just something I'm playing "+
                   "around with, so use at your own risk"
  
-  s.files        = Dir.glob("{bin,lib,test}/**/*") + %w(GPLv3 README.md CHANGELOG.md)
+  s.add_dependency('prawn', '~> 0.11.0')
+
+  s.files        = Dir.glob("{bin,lib,test,examples}/**/*") + %w(GPLv3 README.md CHANGELOG.md)
   s.require_path = 'lib'
   s.required_ruby_version = ">= 1.9.2"
   s.required_rubygems_version = ">= 1.3.6"

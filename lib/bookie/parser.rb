@@ -3,20 +3,23 @@ module Bookie
   Paragraph   = Struct.new(:children)
   
   class Parser
-    def self.parse(contents)
-      parser = new(contents)
+    def self.parse(contents, emitter=Bookie::Emitters::Null.new)
+      parser = new(contents, emitter)
       parser.document_tree
     end
 
     attr_reader :document_tree
 
-    def initialize(contents)
+    def initialize(contents, emitter)
+      @emitter = emitter
       generate_document_tree(contents)
     end
 
     def extract_paragraphs(contents)
       contents.split(/\n\n+/).each do |e|
-        document_tree.children << Paragraph.new([e])
+        paragraph = Paragraph.new([e])
+        @emitter.build_paragraph(paragraph)
+        document_tree.children << paragraph
       end
     end
 

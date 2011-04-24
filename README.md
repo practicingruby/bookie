@@ -17,9 +17,9 @@ put together a proper release plan.
 
 ## Dependencies
 
-This project targets Ruby 1.9.2 exclusively, and will not run on Ruby 1.8. It
-does not rely on anything outside of Ruby 1.9.2's core and standard libraries at
-this time, but that may change in the future.
+Bookie targets Ruby 1.9.2 exclusively, and will not run on Ruby 1.8.
+Currently, the only direct dependency we use is Prawn, but that may change in
+the future.
 
 ## Contributing
 
