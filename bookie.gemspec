@@ -8,8 +8,8 @@ Gem::Specification.new do |s|
   s.email       = ["gregory.t.brown@gmail.com"]
   s.homepage    = "http://github.com/sandal/bookie"
   s.summary     = "Experiment in pure ruby ebook generation tooling"
-  s.description = "Eventually this may be a markdown to PDF, ePUB, MOBI"+
-                  "processor. For now it's just something I'm playing"+
+  s.description = "Eventually this may be a markdown to PDF, ePUB, MOBI "+
+                  "processor. For now it's just something I'm playing "+
                   "around with, so use at your own risk"
  
   s.files        = Dir.glob("{bin,lib,test}/**/*") + %w(GPLv3 README.md CHANGELOG.md)
