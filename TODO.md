@@ -1,13 +1,11 @@
 # Things to do and/or think about
-
-## Whitespace
-
-* To what extent should the parser mess with whitespace characters? Should
-  paragraphs retain or strip newlines? (Currently retaining)
-
-## Testing
-
+  
 * Emitter experiment is useful for getting some ideas about how all this will
-  hang together, but is as of right now untested and also introduces new
-  features to Parser and Document that are untested. Should resolve before 
-  more forward development happens.
+  hang together, but is as of right now untested and hard codes several
+  assumptions that should probably be configurable.
+
+* QUESTION: To what extent should the parser mess with whitespace characters?
+  Currently aggressively mangling whitespace as needed.
+
+* Need to come up with some sort of DSL-ish manifest so that Bookie can handle
+  more than one chapter at once.
