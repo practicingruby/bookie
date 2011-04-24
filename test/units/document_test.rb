@@ -5,6 +5,6 @@ context "A Document" do
     sample_text = fixture("multi_paragraph_document.md")
     document    = Bookie::Document.new(sample_text)
 
-    refute document.contents.children.empty?, "contents should not be empty"
+    refute document.contents.empty?, "contents should not be empty"
   end
 end

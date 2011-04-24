@@ -7,23 +7,20 @@ context "A Parser" do
     # NOTE: Is this the behavior we'd expect?
     sample_paragraph_text = File.read(fixture("single_paragraph.md"))
                                 .gsub(/\s+/," ")
-
-    tree = Bookie::Parser.parse(sample_text)
+    parsed_content        = Bookie::Parser.parse(sample_text)
    
-    assert_equal 8, tree.children.length
+    assert_equal 8, parsed_content.length
 
-    actual_paragraph      = tree.children[4]
-    actual_paragraph_text = actual_paragraph.children.first
+    actual_paragraph      = parsed_content[4]
+    actual_paragraph_text = actual_paragraph.first
 
     assert_equal sample_paragraph_text, actual_paragraph_text 
   end
 
   test "should know about preformatted text" do
-    sample_text = File.read(fixture("preformatted_blocks.md"))
-
-    tree = Bookie::Parser.parse(sample_text)
+    sample_text    = File.read(fixture("preformatted_blocks.md"))
+    parsed_content = Bookie::Parser.parse(sample_text)
    
-    assert_equal 7, tree.children.length
+    assert_equal 6, parsed_content.length
   end
-
 end

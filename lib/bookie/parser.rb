@@ -1,39 +1,38 @@
 module Bookie
-  ContentTree      = Struct.new(:children)
-  Paragraph        = Struct.new(:children)
-  RawText          = Struct.new(:children)
+  Paragraph        = Struct.new(:contents)
+  RawText          = Struct.new(:contents)
   
   class Parser
-    def self.parse(contents, emitter=Bookie::Emitters::Null.new)
-      parser = new(contents, emitter)
-      parser.document_tree
+    def self.parse(raw_data, emitter=Bookie::Emitters::Null.new)
+      parser = new(raw_data, emitter)
+      parser.parsed_content
     end
 
-    attr_reader :document_tree
+    attr_reader :parsed_content
 
-    def initialize(contents, emitter)
-      @emitter = emitter
-      generate_document_tree(contents)
+    def initialize(raw_data, emitter)
+      @emitter        = emitter
+      @parsed_content = []
+
+      parse_contents(raw_data)
     end
 
-    def extract_paragraph(contents)
-      paragraph = Paragraph.new([contents.gsub(/\s+/," ")])
+    def extract_paragraph(paragraph_text)
+      paragraph = Paragraph.new(paragraph_text.gsub(/\s+/," "))
       @emitter.build_paragraph(paragraph)
-      document_tree.children << paragraph
+      parsed_content << paragraph
     end
 
     def extract_raw_text(contents)
-      raw_text = RawText.new([contents])
+      raw_text = RawText.new(contents)
       @emitter.build_raw_text(raw_text)
-      document_tree.children << raw_text      
+      parsed_content << raw_text      
     end
 
     private
 
-    def generate_document_tree(contents)
-      @document_tree = ContentTree.new([])
-
-      lines = contents.lines.to_a
+    def parse_contents(raw_data)
+      lines = raw_data.lines.to_a
       mode  = nil
 
       until lines.empty?
