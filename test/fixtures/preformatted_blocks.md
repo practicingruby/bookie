@@ -36,18 +36,4 @@ The following code demonstrates how we'd make use of this newly created class.
     report = Report.new(ledger)
     puts report.formatted_output
 
-And for those who don't want to take the time to copy and paste this
-code and run it locally, here's what the output looks like:
-
-    Current Balance: 1440.5
-
-    Credits:
-
-    Deposit Check #123: 500.15
-    ATM Deposit: 1200.00
-
-    Debits:
-
-    Fancy Shoes: 200.25
-    Fancy Hat: 54.40
-    Kitteh Litteh: 5.00
+Amazing, right? (Yadda... yadda.. yadda)

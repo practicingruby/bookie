@@ -3,6 +3,9 @@ module Bookie
     class Null
       def build_paragraph(paragraph)
       end
+
+      def build_raw_text(paragraphs)
+      end
     end
 
     class PDF      
@@ -15,24 +18,38 @@ module Bookie
       end
 
       def build_paragraph(paragraph)
-        @paragraphs << paragraph.children.first.gsub(/\s+/," ")
+        @paragraphs << { text: paragraph.children.first.strip }
+      end
+
+      def build_raw_text(raw_text)
+        sanitized_text = raw_text.children.first.
+                                  gsub(" ", Prawn::Text::NBSP).strip
+                                  
+        @paragraphs << { text: sanitized_text, 
+                         font: "Courier",
+                         size: 8               }
       end
 
       def render(params)
         render_header(params)
-        @document.text(@paragraphs.join("\n\n"), align: :justify, size: 10)
+        
+        # there needs to be a better way
+        @paragraphs = @paragraphs.reduce([]) { |s,r| s + [r, { text: "\n\n" }] }
+        @paragraphs.pop
+
+        @document.formatted_text(@paragraphs, align: :justify, size: 10)
         @document.render
       end
 
       def render_header(params)
         @document.instance_eval do
-          text "<b>Chapter #{params[:chapter_number]}</b>", 
+          text "<b>#{params[:header]}</b>", 
             size: 12, align: :right, inline_format: true
           stroke_horizontal_rule
 
           move_down in2pt(0.1)
 
-          text "<b>#{params[:chapter_title]}</b>",
+          text "<b>#{params[:title]}</b>",
             size: 18, align: :right, inline_format: true
             
           move_down in2pt(1.25)

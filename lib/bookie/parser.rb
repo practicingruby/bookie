@@ -1,6 +1,7 @@
 module Bookie
-  ContentTree = Struct.new(:children)
-  Paragraph   = Struct.new(:children)
+  ContentTree      = Struct.new(:children)
+  Paragraph        = Struct.new(:children)
+  RawText          = Struct.new(:children)
   
   class Parser
     def self.parse(contents, emitter=Bookie::Emitters::Null.new)
@@ -16,9 +17,15 @@ module Bookie
     end
 
     def extract_paragraph(contents)
-      paragraph = Paragraph.new([contents])
+      paragraph = Paragraph.new([contents.gsub(/\s+/," ")])
       @emitter.build_paragraph(paragraph)
       document_tree.children << paragraph
+    end
+
+    def extract_raw_text(contents)
+      raw_text = RawText.new([contents])
+      @emitter.build_raw_text(raw_text)
+      document_tree.children << raw_text      
     end
 
     private
@@ -33,8 +40,20 @@ module Bookie
         line = lines.shift
         case
         when mode == nil
-          mode = :paragraph
-          chunk = line
+          if line[/^ {4,}/] 
+            mode = :raw 
+            chunk = line[4..-1]
+          else 
+            mode = :paragraph
+            chunk = line
+          end
+        when mode == :raw
+          chunk << (line.chomp.empty? ? "\n" : line[4..-1].to_s)
+
+          if lines.first =~ /^ {0,3}\S/
+            mode = nil
+            extract_raw_text(chunk)
+          end
         when mode == :paragraph
           if line.chomp.empty?
             mode = nil 
@@ -45,8 +64,11 @@ module Bookie
         end
       end
 
-      if mode == :paragraph
+      case mode
+      when :paragraph
         extract_paragraph(chunk)
+      when :raw
+        extract_raw_text(chunk)
       end
     end
   end
