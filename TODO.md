@@ -3,7 +3,7 @@
 ## Whitespace
 
 * To what extent should the parser mess with whitespace characters? Should
-  paragraphs retain or strip newlines? (Currently stripping)
+  paragraphs retain or strip newlines? (Currently retaining)
 
 ## Testing
 

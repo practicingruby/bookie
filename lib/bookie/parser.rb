@@ -15,19 +15,39 @@ module Bookie
       generate_document_tree(contents)
     end
 
-    def extract_paragraphs(contents)
-      contents.split(/\n\n+/).each do |e|
-        paragraph = Paragraph.new([e])
-        @emitter.build_paragraph(paragraph)
-        document_tree.children << paragraph
-      end
+    def extract_paragraph(contents)
+      paragraph = Paragraph.new([contents])
+      @emitter.build_paragraph(paragraph)
+      document_tree.children << paragraph
     end
 
     private
 
     def generate_document_tree(contents)
       @document_tree = ContentTree.new([])
-      extract_paragraphs(contents)
+
+      lines = contents.lines.to_a
+      mode  = nil
+
+      until lines.empty?
+        line = lines.shift
+        case
+        when mode == nil
+          mode = :paragraph
+          chunk = line
+        when mode == :paragraph
+          if line.chomp.empty?
+            mode = nil 
+            extract_paragraph(chunk)
+          else
+            chunk << line
+          end
+        end
+      end
+
+      if mode == :paragraph
+        extract_paragraph(chunk)
+      end
     end
   end
 end

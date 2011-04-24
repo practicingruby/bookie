@@ -5,7 +5,7 @@ context "A Parser" do
     sample_text           = File.read(fixture("multi_paragraph_document.md"))
 
     # NOTE: Is this the behavior we'd expect?
-    sample_paragraph_text = File.read(fixture("single_paragraph.md")).chomp
+    sample_paragraph_text = File.read(fixture("single_paragraph.md"))
 
     tree = Bookie::Parser.parse(sample_text)
    
