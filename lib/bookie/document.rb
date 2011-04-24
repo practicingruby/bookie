@@ -7,8 +7,8 @@ module Bookie
 
     attr_reader :emitter, :contents
 
-    def render
-      @emitter.render
+    def render(*args)
+      @emitter.render(*args)
     end
   end
 end

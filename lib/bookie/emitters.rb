@@ -5,26 +5,12 @@ module Bookie
       end
     end
 
-    class HTML
-
-      def initialize
-        @output = ""
-      end
-
-      def build_paragraph(paragraph)
-        @output << "<p>#{paragraph.children.first}</p>"
-      end
-
-      def render
-        "<html><body>#{@output}</body></html>"
-      end
-    end
-
     class PDF      
       include Prawn::Measurements
 
       def initialize
         @document    = new_prawn_document
+        @document.extend(Prawn::Measurements)
         @paragraphs  = []
       end
 
@@ -32,9 +18,25 @@ module Bookie
         @paragraphs << paragraph.children.first.gsub(/\s+/," ")
       end
 
-      def render
+      def render(params)
+        render_header(params)
         @document.text(@paragraphs.join("\n\n"), align: :justify, size: 10)
         @document.render
+      end
+
+      def render_header(params)
+        @document.instance_eval do
+          text "<b>Chapter #{params[:chapter_number]}</b>", 
+            size: 12, align: :right, inline_format: true
+          stroke_horizontal_rule
+
+          move_down in2pt(0.1)
+
+          text "<b>#{params[:chapter_title]}</b>",
+            size: 18, align: :right, inline_format: true
+            
+          move_down in2pt(1.25)
+        end
       end
 
       private 
