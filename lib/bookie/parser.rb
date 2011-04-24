@@ -1,4 +1,6 @@
 module Bookie
+  ContentTree = Struct.new(:children)
+
   class Parser
     def self.parse(contents)
       parser = new(contents)
@@ -14,7 +16,7 @@ module Bookie
     private
 
     def generate_document_tree(contents)
-      @document_tree = contents.split(/\n\n+/)
+      @document_tree = ContentTree.new(contents.split(/\n\n+/))
     end
   end
 end
