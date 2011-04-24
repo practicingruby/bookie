@@ -14,3 +14,8 @@ anything else.
 Added some basic emitters for PDF and HTML paragraphs. Note these are proofs of
 concept ONLY, not meant for practical use. See examples/simple_emitters.rb to
 see how they're used.
+
+## 0.0.4 (2011.04.24)
+
+Removed HTML emitter for now. Expanded parser and PDF emitter to support
+preformatted text. See examples/preformatted.rb for to see how it works.
