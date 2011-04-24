@@ -1,4 +1,5 @@
 require "minitest/autorun"
+require_relative "../lib/bookie"
 
 # adopted from: https://gist.github.com/839034
 def context(*args, &block)
@@ -28,4 +29,8 @@ def context(*args, &block)
    end
 
   context_class.class_eval(&block)
+end
+
+def fixture(path)
+  "#{File.dirname(__FILE__)}/fixtures/#{path}"
 end
