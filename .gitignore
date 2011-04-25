@@ -2,3 +2,4 @@
 .rvmrc
 Gemfile.lock
 *.pdf
+.DS_Store

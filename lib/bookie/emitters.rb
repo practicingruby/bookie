@@ -4,7 +4,56 @@ module Bookie
       def build_paragraph(paragraph)
       end
 
-      def build_raw_text(paragraphs)
+      def build_raw_text(raw_text)
+      end
+    end
+
+    class HTML
+      def initialize
+        @body = ""
+      end
+
+      attr_reader :body
+
+      def build_paragraph(paragraph)
+        @body << "<p>#{paragraph.contents}</p>"
+      end
+
+      def build_raw_text(raw_text)
+        @body << "<pre>#{raw_text.contents}</pre>"
+      end
+
+      def render(params)
+        File.open(params[:file], "w") do |file|
+          file << %{
+            <html>
+               <body><h1>#{params[:title]}</h1>#{@body}</body>
+            </html>
+          }
+        end
+      end
+    end
+
+    class MOBI < HTML
+      def render(params)
+        t = Tempfile.new(params[:file])
+        t << %{
+          <html>
+            <head>
+              <style type="text/css">
+                h1 { margin-bottom: 3em }
+                p { margin-bottom: 1.1em; text-indent: 0 }
+                pre { font-size: xx-small }
+              </style>
+            </head>
+            <body><h1>#{params[:title]}</h1>#{@body}</body>
+          </html>
+        }
+        t.close
+        FileUtils.mv(t.path, "#{t.path}.html")
+
+        `kindlegen #{t.path+'.html'} -o #{params[:file]}`
+        FileUtils.mv("#{Dir.tmpdir}/#{params[:file]}", ".")
       end
     end
 
@@ -18,13 +67,12 @@ module Bookie
       end
 
       def build_paragraph(paragraph)
-        @paragraphs << { text: paragraph.children.first.strip }
+        @paragraphs << { text: paragraph.contents.strip }
       end
 
       def build_raw_text(raw_text)
-        sanitized_text = raw_text.children.first.
-                                  gsub(" ", Prawn::Text::NBSP).strip
-                                  
+        sanitized_text = raw_text.contents.gsub(" ", Prawn::Text::NBSP).strip
+                                 
         @paragraphs << { text: sanitized_text, 
                          font: "Courier",
                          size: 8               }
@@ -38,7 +86,7 @@ module Bookie
         @paragraphs.pop
 
         @document.formatted_text(@paragraphs, align: :justify, size: 10)
-        @document.render
+        @document.render_file(params[:file])
       end
 
       def render_header(params)

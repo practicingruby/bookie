@@ -1,3 +1,6 @@
+require "tempfile"
+require "fileutils"
+
 require "prawn"
 
 require_relative "bookie/version"

@@ -19,3 +19,9 @@ see how they're used.
 
 Removed HTML emitter for now. Expanded parser and PDF emitter to support
 preformatted text. See examples/preformatted.rb for to see how it works.
+
+## 0.0.5 (2011.04.24)
+
+Reinstated a skeletal HTML emitter because it's needed for EPub and Mobi. Added
+pretty terrible Mobi support, will not really be useful until we flesh out
+manifests and table of content generation, but looks okay on my Kindle!
