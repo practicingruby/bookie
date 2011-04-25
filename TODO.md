@@ -8,4 +8,5 @@
   Currently aggressively mangling whitespace as needed.
 
 * Need to come up with some sort of DSL-ish manifest so that Bookie can handle
-  more than one chapter at once.
+  more than one chapter at once and so MOBI format can have a proper book name
+  in the Kindle home page.
