@@ -18,8 +18,13 @@ put together a proper release plan.
 ## Dependencies
 
 Bookie targets Ruby 1.9.2 exclusively, and will not run on Ruby 1.8.
-Currently, the only direct dependency we use is Prawn, but that may change in
-the future.
+PDF generation is provided by [Prawn](http::/prawn.majesticseacreature.com),
+ePUB from [eeepub](https://github.com/jugyo/eeepub), and MOBI via the command
+line tool [kindlegen](http://www.amazon.com/gp/feature.html?ie=UTF8&docId=1000234621).
+
+Prawn and eeepub are free software projects available via rubygems, kindlegen is
+free-as-in-beer proprietary software from Amazon that needs to be installed 
+manually.
 
 ## Contributing
 
