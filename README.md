@@ -1,6 +1,6 @@
-# Bookie: An ebook publishing toolchain written mostly in Ruby
-
 ![Bookie Logo](https://github.com/sandal/bookie/raw/master/doc/banner.png)
+
+# Bookie: An ebook publishing toolchain written mostly in Ruby
 
 While I have not looked especially far and wide, I haven't found a book
 publishing toolchain that I like which both has a nice workflow AND does not
