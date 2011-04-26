@@ -22,9 +22,13 @@ PDF generation is provided by [Prawn](http::/prawn.majesticseacreature.com),
 ePUB from [eeepub](https://github.com/jugyo/eeepub), and MOBI via the command
 line tool [kindlegen](http://www.amazon.com/gp/feature.html?ie=UTF8&docId=1000234621).
 
-Prawn and eeepub are free software projects available via rubygems, kindlegen is
-free-as-in-beer proprietary software from Amazon that needs to be installed 
-manually.
+PDF can be generated out of the box after installing the bookie gem. For ePUB,
+it's necessary to have the GNU zip command line utility present (preinstalled on
+OS X and many linux distros, but you may need msys on Windows, not sure.). For
+MOBI, you need to install kindlegen manually.
+
+A long term goal for this project would be to eliminate most or all of these
+non-ruby dependencies, but I want to get a working toolchain together first.
 
 ## Contributing
 
