@@ -25,3 +25,9 @@ preformatted text. See examples/preformatted.rb for to see how it works.
 Reinstated a skeletal HTML emitter because it's needed for EPub and Mobi. Added
 pretty terrible Mobi support, will not really be useful until we flesh out
 manifests and table of content generation, but looks okay on my Kindle!
+
+## 0.0.6 (2011.04.26)
+
+Added a minimal ePUB generator that seems to work at least for Adobe Digital
+Editions and EPubReader. Still have not tested where it matters, the
+iPad+iBooks.
