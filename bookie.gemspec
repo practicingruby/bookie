@@ -13,6 +13,7 @@ Gem::Specification.new do |s|
                   "around with, so use at your own risk"
  
   s.add_dependency('prawn', '~> 0.11.0')
+  s.add_dependency('eeepub', '~> 0.6.0')
 
   s.files        = Dir.glob("{bin,lib,test,examples,doc}/**/*") + %w(GPLv3 README.md CHANGELOG.md)
   s.require_path = 'lib'

@@ -18,3 +18,8 @@ mobi_document = Bookie::Document.new(file, Bookie::Emitters::MOBI.new)
 
 mobi_document.render(title:  "Ruby's Method Lookup Path",
                      file:   "output.mobi")
+
+epub_document = Bookie::Document.new(file, Bookie::Emitters::EPUB.new)
+
+epub_document.render(title:  "Ruby's Method Lookup Path",
+                     file:   "output.epub")
