@@ -31,3 +31,9 @@ manifests and table of content generation, but looks okay on my Kindle!
 Added a minimal ePUB generator that seems to work at least for Adobe Digital
 Editions and EPubReader. Still have not tested where it matters, the
 iPad+iBooks.
+
+## 0.0.7 (2011.04.27)
+
+Hack in section headings, right now using the ## syntax from markdown.
+Copy-paste lots of stuff from github.com/madriska/jambalaya, including the
+DejaVu font sets. Make PDF output look pretty, but the source code look ugly.
