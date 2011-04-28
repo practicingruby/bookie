@@ -23,4 +23,16 @@ context "A Parser" do
    
     assert_equal 6, parsed_content.length
   end
+
+  test "should know about section headers" do
+    sample_text    = File.read(fixture("document_with_headings.md"))
+    parsed_content = Bookie::Parser.parse(sample_text)
+
+    assert_equal 17, parsed_content.length
+
+    actual_heading      = parsed_content[2]
+    actual_heading_text = actual_heading.contents
+
+    assert_equal "Continuations are Evil?", actual_heading_text
+  end
 end

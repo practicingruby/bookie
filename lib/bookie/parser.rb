@@ -1,6 +1,7 @@
 module Bookie
   Paragraph        = Struct.new(:contents)
   RawText          = Struct.new(:contents)
+  SectionHeading   = Struct.new(:contents)
   
   class Parser
     def self.parse(raw_data, emitter=Bookie::Emitters::Null.new)
@@ -29,6 +30,12 @@ module Bookie
       parsed_content << raw_text      
     end
 
+    def extract_section_heading(contents)
+      header = SectionHeading.new(contents.chomp)
+      @emitter.build_section_heading(header)
+      parsed_content << header
+    end
+
     private
 
     def parse_contents(raw_data)
@@ -39,7 +46,10 @@ module Bookie
         line = lines.shift
         case
         when mode == nil
-          if line[/^ {4,}/] 
+          case line
+          when /^## /
+            extract_section_heading(line[3..-1])
+          when /^ {4,}/
             mode = :raw 
             chunk = line[4..-1]
           else 

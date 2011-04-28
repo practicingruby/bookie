@@ -6,6 +6,9 @@ module Bookie
 
       def build_raw_text(raw_text)
       end
+      
+      def build_section_heading(header)
+      end
     end
 
     class HTML
@@ -21,6 +24,10 @@ module Bookie
 
       def build_raw_text(raw_text)
         @body << "<pre>#{raw_text.contents}</pre>"
+      end
+
+      def build_section_heading(header)
+        @body << "<h2>#{header.contents}</h2>"
       end
 
       def render(params)
@@ -41,6 +48,11 @@ module Bookie
                <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" 
                 "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
                 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+                   <head>
+                   <style type="text/css">
+                    pre { font-size: 1.1em }
+                  </style>
+                  </head>
                   <body><h1>#{params[:title]}</h1>#{@body}</body>
                 </html>
         }
@@ -66,7 +78,8 @@ module Bookie
           <html>
             <head>
               <style type="text/css">
-                h1 { margin-bottom: 3em }
+                h1 { margin-bottom: 3em; font-size: xx-large }
+                h2 { font-size: large }
                 p { margin-bottom: 1.1em; text-indent: 0 }
                 pre { font-size: xx-small }
               </style>
@@ -85,49 +98,88 @@ module Bookie
     class PDF      
       include Prawn::Measurements
 
-      def initialize
+      def initialize(params)
         @document    = new_prawn_document
         @document.extend(Prawn::Measurements)
-        @paragraphs  = []
+
+        register_fonts
+        render_header(params)
+      end
+
+      def build_section_heading(section_text)
+        @document.move_down in2pt(0.1)
+
+        @document.float do
+          @document.font("sans", :style => :bold, :size => 14) do
+            @document.text(section_text.contents.strip)
+          end
+        end
+        
+       @document.move_down in2pt(0.3)
       end
 
       def build_paragraph(paragraph)
-        @paragraphs << { text: paragraph.contents.strip }
+        @document.font("serif", size: 9) do
+          @document.text(paragraph.contents.strip, align: :justify, leading: 2)
+          @document.move_down in2pt(0.1)
+        end
       end
 
       def build_raw_text(raw_text)
         sanitized_text = raw_text.contents.gsub(" ", Prawn::Text::NBSP).strip
                                  
-        @paragraphs << { text: sanitized_text, 
-                         font: "Courier",
-                         size: 8               }
+        @document.font("mono", size: 8) do
+          @document.text sanitized_text            
+          @document.move_down in2pt(0.1)
+        end
       end
 
       def render(params)
-        render_header(params)
-        
-        # there needs to be a better way
-        @paragraphs = @paragraphs.reduce([]) { |s,r| s + [r, { text: "\n\n" }] }
-        @paragraphs.pop
-
-        @document.formatted_text(@paragraphs, align: :justify, size: 10)
         @document.render_file(params[:file])
       end
 
       def render_header(params)
         @document.instance_eval do
-          text "<b>#{params[:header]}</b>", 
-            size: 12, align: :right, inline_format: true
-          stroke_horizontal_rule
+          font("sans") do
+            text "<b>#{params[:header]}</b>", 
+              size: 12, align: :right, inline_format: true
+            stroke_horizontal_rule
 
-          move_down in2pt(0.1)
+            move_down in2pt(0.1)
 
-          text "<b>#{params[:title]}</b>",
-            size: 18, align: :right, inline_format: true
-            
-          move_down in2pt(1.25)
+            text "<b>#{params[:title]}</b>",
+              size: 18, align: :right, inline_format: true
+              
+            move_down in2pt(1.25)
+          end
         end
       end
+
+      def register_fonts
+        dejavu_path = File.dirname(__FILE__) + "/../../data/fonts/dejavu"
+
+        @document.font_families["sans"] = {
+          :normal => "#{dejavu_path}/DejaVuSansCondensed.ttf",
+          :italic => "#{dejavu_path}/DejaVuSansCondensed-Oblique.ttf",
+          :bold => "#{dejavu_path}/DejaVuSansCondensed-Bold.ttf",
+          :bold_italic => "#{dejavu_path}/DejaVuSansCondensed-BoldOblique.ttf"
+        }
+
+        @document.font_families["mono"] = {
+          :normal => "#{dejavu_path}/DejaVuSansMono.ttf",
+          :italic => "#{dejavu_path}/DejaVuSansMono-Oblique.ttf",
+          :bold => "#{dejavu_path}/DejaVuSansMono-Bold.ttf",
+          :bold_italic => "#{dejavu_path}/DejaVuSansMono-BoldOblique.ttf"
+        }
+
+        @document.font_families["serif"] = {
+          :normal => "#{dejavu_path}/DejaVuSerif.ttf",
+          :italic => "#{dejavu_path}/DejaVuSerif-Italic.ttf",
+          :bold => "#{dejavu_path}/DejaVuSerif-Bold.ttf",
+          :bold_italic => "#{dejavu_path}/DejaVuSerif-BoldItalic.ttf"
+        }
+      end
+      
 
       private 
 
