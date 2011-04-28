@@ -121,14 +121,18 @@ module Bookie
       def build_list(list)
         items = list.contents
 
-        @document.instance_eval do
+        draw do
           font("serif", :size => 9) do
             items.each do |li|
-              float { text "•" }
-              indent(in2pt(0.15)) do
-                text li.gsub(/\s+/," "),
-                  inline_format: true,
-                  leading: 2
+              li_text = li.gsub(/\s+/," ")
+
+              group do
+                float { text "•" }
+                indent(in2pt(0.15)) do
+                  text li_text,
+                    inline_format: true,
+                    leading: 2
+                end
               end
 
               move_down in2pt(0.05)
@@ -140,30 +144,38 @@ module Bookie
       end
 
       def build_section_heading(section_text)
-        @document.move_down in2pt(0.1)
+        draw do
+          start_new_page unless cursor > in2pt(0.4)
 
-        @document.float do
-          @document.font("sans", :style => :bold, :size => 14) do
-            @document.text(section_text.contents.strip)
+          move_down in2pt(0.1)
+
+          float do
+            font("sans", :style => :bold, :size => 14) do
+              text(section_text.contents.strip)
+            end
           end
-        end
         
-       @document.move_down in2pt(0.3)
+          move_down in2pt(0.3)
+        end
       end
 
       def build_paragraph(paragraph)
-        @document.font("serif", size: 9) do
-          @document.text(paragraph.contents.strip, align: :justify, leading: 2)
-          @document.move_down in2pt(0.1)
+        draw do
+          font("serif", size: 9) do
+            text(paragraph.contents.strip, align: :justify, leading: 2)
+          end
+          move_down in2pt(0.1)
         end
       end
 
       def build_raw_text(raw_text)
         sanitized_text = raw_text.contents.gsub(" ", Prawn::Text::NBSP).strip
-                                 
-        @document.font("mono", size: 8) do
-          @document.text sanitized_text            
-          @document.move_down in2pt(0.1)
+
+        draw do
+          font("mono", size: 8) do
+            text sanitized_text            
+            move_down in2pt(0.1)
+          end
         end
       end
 
@@ -172,7 +184,7 @@ module Bookie
       end
 
       def render_header(params)
-        @document.instance_eval do
+        draw do
           font("sans") do
             text "<b>#{params[:header]}</b>", 
               size: 12, align: :right, inline_format: true
@@ -191,26 +203,32 @@ module Bookie
       def register_fonts
         dejavu_path = File.dirname(__FILE__) + "/../../data/fonts/dejavu"
 
-        @document.font_families["sans"] = {
-          :normal => "#{dejavu_path}/DejaVuSansCondensed.ttf",
-          :italic => "#{dejavu_path}/DejaVuSansCondensed-Oblique.ttf",
-          :bold => "#{dejavu_path}/DejaVuSansCondensed-Bold.ttf",
-          :bold_italic => "#{dejavu_path}/DejaVuSansCondensed-BoldOblique.ttf"
-        }
+        draw do
+          font_families["sans"] = {
+            :normal => "#{dejavu_path}/DejaVuSansCondensed.ttf",
+            :italic => "#{dejavu_path}/DejaVuSansCondensed-Oblique.ttf",
+            :bold => "#{dejavu_path}/DejaVuSansCondensed-Bold.ttf",
+            :bold_italic => "#{dejavu_path}/DejaVuSansCondensed-BoldOblique.ttf"
+          }
 
-        @document.font_families["mono"] = {
-          :normal => "#{dejavu_path}/DejaVuSansMono.ttf",
-          :italic => "#{dejavu_path}/DejaVuSansMono-Oblique.ttf",
-          :bold => "#{dejavu_path}/DejaVuSansMono-Bold.ttf",
-          :bold_italic => "#{dejavu_path}/DejaVuSansMono-BoldOblique.ttf"
-        }
+          font_families["mono"] = {
+            :normal => "#{dejavu_path}/DejaVuSansMono.ttf",
+            :italic => "#{dejavu_path}/DejaVuSansMono-Oblique.ttf",
+            :bold => "#{dejavu_path}/DejaVuSansMono-Bold.ttf",
+            :bold_italic => "#{dejavu_path}/DejaVuSansMono-BoldOblique.ttf"
+          }
 
-        @document.font_families["serif"] = {
-          :normal => "#{dejavu_path}/DejaVuSerif.ttf",
-          :italic => "#{dejavu_path}/DejaVuSerif-Italic.ttf",
-          :bold => "#{dejavu_path}/DejaVuSerif-Bold.ttf",
-          :bold_italic => "#{dejavu_path}/DejaVuSerif-BoldItalic.ttf"
-        }
+          font_families["serif"] = {
+            :normal => "#{dejavu_path}/DejaVuSerif.ttf",
+            :italic => "#{dejavu_path}/DejaVuSerif-Italic.ttf",
+            :bold => "#{dejavu_path}/DejaVuSerif-Bold.ttf",
+            :bold_italic => "#{dejavu_path}/DejaVuSerif-BoldItalic.ttf"
+          }
+        end
+      end
+
+      def draw(&block)
+        @document.instance_eval(&block)
       end
       
 
