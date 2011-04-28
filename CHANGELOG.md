@@ -43,3 +43,7 @@ DejaVu font sets. Make PDF output look pretty, but the source code look ugly.
 Basic support for unordered lists. The ePUB output has not been tested yet,
 because most desktop based ePUB readers suck and I don't have an iPad. Will ask
 friends to test soon.
+
+## 0.0.9 (2011.04.28)
+
+Add barely useful command line app

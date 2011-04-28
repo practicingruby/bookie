@@ -20,3 +20,6 @@
 
 * Refactoring is definitely going to need to happen soon. The whole project is
   currently a mess.
+
+* Give command line options for generating (or not generating) PDF, MOBI, ePUB.
+  Currently generating all three
