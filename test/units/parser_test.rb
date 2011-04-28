@@ -42,7 +42,7 @@ context "A Parser" do
 
     assert_equal 3, parsed_content.length
 
-    assert_equal 8, parsed_content[1].contents.length
+    assert_equal 7, parsed_content[1].contents.length
 
     expected_li4 = "Your project can be pretty much anything Ruby related, "+
                    "as long as it does something useful, and involves writing "+
