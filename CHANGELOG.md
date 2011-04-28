@@ -37,3 +37,9 @@ iPad+iBooks.
 Hack in section headings, right now using the ## syntax from markdown.
 Copy-paste lots of stuff from github.com/madriska/jambalaya, including the
 DejaVu font sets. Make PDF output look pretty, but the source code look ugly.
+
+## 0.0.8 (2011.04.28)
+
+Basic support for unordered lists. The ePUB output has not been tested yet,
+because most desktop based ePUB readers suck and I don't have an iPad. Will ask
+friends to test soon.
