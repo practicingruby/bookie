@@ -35,4 +35,19 @@ context "A Parser" do
 
     assert_equal "Continuations are Evil?", actual_heading_text
   end
+
+  test "should know about list elements" do
+    sample_text    = File.read(fixture("lists.md"))
+    parsed_content = Bookie::Parser.parse(sample_text)
+
+    assert_equal 3, parsed_content.length
+
+    assert_equal 8, parsed_content[1].contents.length
+
+    expected_li4 = "Your project can be pretty much anything Ruby related, "+
+                   "as long as it does something useful, and involves writing "+
+                   "a reasonable amount of Ruby code."
+
+    assert_equal expected_li4, parsed_content[1].contents[4]
+  end
 end

@@ -2,6 +2,7 @@ module Bookie
   Paragraph        = Struct.new(:contents)
   RawText          = Struct.new(:contents)
   SectionHeading   = Struct.new(:contents)
+  List             = Struct.new(:contents)
   
   class Parser
     def self.parse(raw_data, emitter=Bookie::Emitters::Null.new)
@@ -36,6 +37,12 @@ module Bookie
       parsed_content << header
     end
 
+    def extract_list(contents)
+      list = List.new(contents.map { |e| e.chomp })
+      @emitter.build_list(list)
+      parsed_content << list
+    end
+
     private
 
     def parse_contents(raw_data)
@@ -52,16 +59,26 @@ module Bookie
           when /^ {4,}/
             mode = :raw 
             chunk = line[4..-1]
+          when /^\* /
+            mode   = :list
+            chunk  = [line[2..-1]]
           else 
             mode = :paragraph
             chunk = line
           end
         when mode == :raw
-          chunk << (line.chomp.empty? ? "\n" : line[4..-1].to_s)
+          chunk << (line.strip.empty? ? "\n" : line[4..-1].to_s)
 
           if lines.first =~ /^ {0,3}\S/
             mode = nil
             extract_raw_text(chunk)
+          end
+        when mode == :list
+          chunk << line[2..-1].to_s unless line.strip.empty?
+
+          if lines.first.to_s.strip.length > 0 && lines.first !~ /^\*/
+            mode = nil
+            extract_list(chunk)
           end
         when mode == :paragraph
           if line.chomp.empty?
@@ -78,6 +95,8 @@ module Bookie
         extract_paragraph(chunk)
       when :raw
         extract_raw_text(chunk)
+      when :list
+        extract_list(chunk)
       end
     end
   end

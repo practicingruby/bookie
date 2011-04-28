@@ -1,3 +1,5 @@
+# coding: UTF-8
+
 module Bookie
   module Emitters
     class Null
@@ -8,6 +10,9 @@ module Bookie
       end
       
       def build_section_heading(header)
+      end
+
+      def build_list(content)
       end
     end
 
@@ -28,6 +33,11 @@ module Bookie
 
       def build_section_heading(header)
         @body << "<h2>#{header.contents}</h2>"
+      end
+
+      def build_list(list)
+        list_elements = list.contents.map { |li| "<li>#{li}</li>" }.join
+        @body << "<ul>"+list_elements+"</ul>"
       end
 
       def render(params)
@@ -82,6 +92,8 @@ module Bookie
                 h2 { font-size: large }
                 p { margin-bottom: 1.1em; text-indent: 0 }
                 pre { font-size: xx-small }
+                li { margin-bottom: 1.1em }
+                ul { margin-top: 0em; margin-bottom: 0em;}
               </style>
             </head>
             <body><h1>#{params[:title]}</h1>#{@body}</body>
@@ -104,6 +116,27 @@ module Bookie
 
         register_fonts
         render_header(params)
+      end
+
+      def build_list(list)
+        items = list.contents
+
+        @document.instance_eval do
+          font("serif", :size => 9) do
+            items.each do |li|
+              float { text "•" }
+              indent(in2pt(0.15)) do
+                text li.gsub(/\s+/," "),
+                  inline_format: true,
+                  leading: 2
+              end
+
+              move_down in2pt(0.05)
+            end
+          end
+
+          move_down in2pt(0.05)
+        end
       end
 
       def build_section_heading(section_text)
