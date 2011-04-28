@@ -47,3 +47,7 @@ friends to test soon.
 ## 0.0.9 (2011.04.28)
 
 Add barely useful command line app
+
+## 0.0.10 (2011.04.28)
+
+Fix some PDF bugs and make a little draw() helper for emitter.
