@@ -51,3 +51,9 @@ Add barely useful command line app
 ## 0.0.10 (2011.04.28)
 
 Fix some PDF bugs and make a little draw() helper for emitter.
+
+## 0.0.11 (2011.04.30)
+
+Remove Document class for now. Remove bookie executable for now. Remove all old
+examples from <= 0.0.10. Move towards a book manifest type API. Much work needs
+ to be done to make this actually usable.
