@@ -24,7 +24,7 @@ module Bookie
       Bookie::Document.new(input, Bookie::Emitters::MOBI.new)
                       .render({file: "#{basename}.mobi"}.merge(options))
       Bookie::Document.new(input, Bookie::Emitters::EPUB.new)
-                      .render({file: "#{basename}.mobi"}.merge(options))
+                      .render({file: "#{basename}.epub"}.merge(options))
     end
   end
 end
