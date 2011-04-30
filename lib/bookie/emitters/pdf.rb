@@ -5,11 +5,20 @@ module Bookie
     class PDF      
       include Prawn::Measurements
 
-      def initialize(params)
+      def self.extension
+        ".pdf"
+      end
+
+      def initialize
         @document    = new_prawn_document
         @document.extend(Prawn::Measurements)
 
         register_fonts
+      end
+
+      def start_new_chapter(params)
+        @document.save_graphics_state # HACK for what might be a Prawn bug
+        @document.start_new_page
         render_header(params)
       end
 
@@ -96,7 +105,7 @@ module Bookie
       end
 
       def register_fonts
-        dejavu_path = File.dirname(__FILE__) + "/../../data/fonts/dejavu"
+        dejavu_path = File.dirname(__FILE__) + "/../../../data/fonts/dejavu"
 
         draw do
           font_families["sans"] = {
@@ -130,11 +139,12 @@ module Bookie
       private 
 
       def new_prawn_document
-        Prawn::Document.new( top_margin:    in2pt(0.75),
-                             bottom_margin: in2pt(1),
-                             left_margin:   in2pt(1),
-                             right_margin:  in2pt(1),
-                             page_size:     [in2pt(7.0), in2pt(9.19)] )
+        Prawn::Document.new( top_margin:         in2pt(0.75),
+                             bottom_margin:      in2pt(1),
+                             left_margin:        in2pt(1),
+                             right_margin:       in2pt(1),
+                             page_size:          [in2pt(7.0), in2pt(9.19)],
+                             skip_page_creation: true)
       end
     end
   end
