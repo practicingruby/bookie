@@ -7,10 +7,6 @@
 * QUESTION: To what extent should the parser mess with whitespace characters?
   Currently aggressively mangling whitespace as needed.
 
-* Need to come up with some sort of DSL-ish manifest so that Bookie can handle
-  more than one chapter at once and so MOBI format can have a proper book name
-  in the Kindle home page.
-
 * Look into generating ePub from scratch. eeepub is straightforward but we could
   better.
 
@@ -23,3 +19,6 @@
 
 * Give command line options for generating (or not generating) PDF, MOBI, ePUB.
   Currently generating all three
+
+* Need to use proper outline/chapter support for PDF,EPub,Mobi rather than just
+  setting chapters in header styling.

@@ -1,6 +1,0 @@
-#!/usr/bin/env ruby
-
-require_relative "../lib/bookie"
-require_relative "../lib/bookie/application"
-
-Bookie::Application.run(*ARGV)
