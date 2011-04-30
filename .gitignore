@@ -2,4 +2,6 @@
 .rvmrc
 Gemfile.lock
 *.pdf
+*.epub
+*.mobi
 .DS_Store
