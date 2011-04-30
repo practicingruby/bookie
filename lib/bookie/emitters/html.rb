@@ -1,11 +1,19 @@
 module Bookie
   module Emitters
     class HTML
+      def self.extension
+        ".html"
+      end
+
       def initialize
         @body = ""
       end
 
       attr_reader :body
+
+      def start_new_chapter(params)
+        @body << "<h1>#{params[:header]}: #{params[:title]}</h1>"
+      end
 
       def build_paragraph(paragraph)
         @body << "<p>#{paragraph.contents}</p>"
@@ -28,7 +36,7 @@ module Bookie
         File.open(params[:file], "w") do |file|
           file << %{
             <html>
-               <body><h1>#{params[:title]}</h1>#{@body}</body>
+               <body>#{@body}</body>
             </html>
           }
         end

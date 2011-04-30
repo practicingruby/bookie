@@ -1,6 +1,10 @@
 module Bookie
   module Emitters
     class EPUB < HTML
+      def self.extension
+        ".epub"
+      end
+
       def render(params)
         t = Tempfile.new(params[:file])
         t << %{<?xml version="1.0" encoding="UTF-8"?>

@@ -1,6 +1,10 @@
 module Bookie
   module Emitters
     class MOBI < HTML
+      def self.extension
+        ".mobi"
+      end
+
       def render(params)
         t = Tempfile.new(params[:file])
         t << %{
