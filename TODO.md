@@ -22,3 +22,6 @@
 
 * Need to use proper outline/chapter support for PDF,EPub,Mobi rather than just
   setting chapters in header styling.
+
+* Need to be able to pull snippets in from other files for pre-formatted text
+  sections.  Something like:  [pre path/to/file]
