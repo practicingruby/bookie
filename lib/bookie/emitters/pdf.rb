@@ -16,9 +16,12 @@ module Bookie
         register_fonts
       end
 
+      attr_reader :document
+
       def start_new_chapter(params)
         @document.save_graphics_state # HACK for what might be a Prawn bug
         @document.start_new_page
+        @document.outline.section(params[:title], :destination => @document.page_number)
         render_header(params)
       end
 
