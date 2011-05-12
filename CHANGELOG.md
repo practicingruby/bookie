@@ -57,3 +57,8 @@ Fix some PDF bugs and make a little draw() helper for emitter.
 Remove Document class for now. Remove bookie executable for now. Remove all old
 examples from <= 0.0.10. Move towards a book manifest type API. Much work needs
  to be done to make this actually usable.
+
+## 0.0.12 (2011.05.12)
+
+Added rudimentary chapter support for EPUB, MOBI, and PDF. Render once per
+emitter rather than once per chapter per emitter (bugfix).
