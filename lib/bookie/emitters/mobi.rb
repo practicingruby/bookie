@@ -24,7 +24,7 @@ module Bookie
         Dir.mktmpdir("bookie-mobi") do |dir|
           @chapters.each_with_index do |(title, content),index|
             File.open("#{dir}/#{index}.html", "w") do |f|
-              template = File.read("#{Bookie::TEMPLATES_DIR}/html_chapter.erb")
+              template = File.read("#{Bookie::TEMPLATES_DIR}/mobi_chapter.erb")
               f << ERB.new(template).result(binding)
             end
           end

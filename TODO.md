@@ -24,5 +24,3 @@
   than the first
 
 * Need Table of Contents
-
-* Need Chapter support for ePUB
