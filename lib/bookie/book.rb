@@ -19,9 +19,10 @@ module Bookie
           emitter.start_new_chapter(header: "Chapter #{i+1}",
                                     title:  name)
           Bookie::Parser.parse(File.read(file), emitter)
-          output_file = "#{basename}#{emitter.class.extension}"
-          emitter.render(file: output_file)
         end
+
+        output_file = "#{basename}#{emitter.class.extension}"
+        emitter.render(file: output_file)
       end
     end
   end
