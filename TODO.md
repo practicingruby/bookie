@@ -17,11 +17,12 @@
 * Refactoring is definitely going to need to happen soon. The whole project is
   currently a mess.
 
-* Give command line options for generating (or not generating) PDF, MOBI, ePUB.
-  Currently generating all three
-
-* Need to use proper outline/chapter support for PDF,EPub,Mobi rather than just
-  setting chapters in header styling.
-
 * Need to be able to pull snippets in from other files for pre-formatted text
   sections.  Something like:  [pre path/to/file]
+
+* Find out why MOBI format is placing us at the last chapter by default rather
+  than the first
+
+* Need Table of Contents
+
+* Need Chapter support for ePUB

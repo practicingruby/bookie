@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+  the identifier specified in <metadata> as <dc:Identifier id="XYZ">.
+-->
+<package xmlns="http://www.idpf.org/2007/opf" version="2.0" unique-identifier="BookId">
+<metadata xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:opf="http://www.idpf.org/2007/opf">
+  <dc:title>Bookie Generated Example</dc:title>
+  <dc:language>en</dc:language>
+  <dc:creator>Gregory Brown</dc:creator>
+</metadata>
+
+<manifest>
+   <% @chapters.each_index do |i| %>
+     <item id="chapter<%= i %>" media-type="text/x-oeb1-document" href="<%= i %>.html"></item>
+   <% end %>
+
+   <spine>
+   <% @chapters.each_index do |i| %>
+     <itemref idref="chapter<%= i %>"/>
+   <% end %>
+  </spine>
+</manifest>
+
+<guide>
+  <% @chapters.each_with_index do |(title, content), i| %>
+    <% if i == 0 %>
+      <reference type="text" title="Beginning" href="<%= i %>.html"></reference>
+    <% elsif i == @chapters.length - 1 %>
+      <reference type="text" title="End" href="<%= i %>.html"></reference>
+    <% end %>
+  <% end %>
+</guide>
+</package>

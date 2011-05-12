@@ -1,32 +1,42 @@
 module Bookie
   module Emitters
     class MOBI < HTML
+      OPF_TEMPLATE = %{
+
+      }
+
       def self.extension
         ".mobi"
       end
 
-      def render(params)
-        t = Tempfile.new(params[:file])
-        t << %{
-          <html>
-            <head>
-              <style type="text/css">
-                h1 { margin-bottom: 3em; font-size: xx-large }
-                h2 { font-size: large }
-                p { margin-bottom: 1.1em; text-indent: 0 }
-                pre { font-size: xx-small }
-                li { margin-bottom: 1.1em }
-                ul { margin-top: 0em; margin-bottom: 0em;}
-              </style>
-            </head>
-            <body><h1>#{params[:title]}</h1>#{@body}</body>
-          </html>
-        }
-        t.close
-        FileUtils.mv(t.path, "#{t.path}.html")
+      def initialize
+        @chapters = []
+      end
 
-        `kindlegen #{t.path+'.html'} -o #{params[:file]}`
-        FileUtils.mv("#{Dir.tmpdir}/#{params[:file]}", ".")
+      def start_new_chapter(params)
+        @body =  ""
+
+        @chapters << [params[:title], @body]
+        @body << "<h1>#{params[:header]}: #{params[:title]}</h1>"
+      end
+
+      def render(params)
+        Dir.mktmpdir("bookie-mobi") do |dir|
+          @chapters.each_with_index do |(title, content),index|
+            File.open("#{dir}/#{index}.html", "w") do |f|
+              template = File.read("#{Bookie::TEMPLATES_DIR}/html_chapter.erb")
+              f << ERB.new(template).result(binding)
+            end
+          end
+
+          File.open("#{dir}/book.opf", "w") do |f|
+            template = File.read("#{Bookie::TEMPLATES_DIR}/opf.erb")
+            f << ERB.new(template).result(binding)
+          end
+
+          `kindlegen #{dir}/book.opf -o #{params[:file]}`
+          FileUtils.mv("#{dir}/#{params[:file]}", ".")
+        end
       end
     end
   end
