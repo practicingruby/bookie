@@ -2,6 +2,7 @@ require "date"
 require "fileutils"
 require "tempfile"
 require "erb"
+require "strscan"
 
 require "prawn"
 require "eeepub"

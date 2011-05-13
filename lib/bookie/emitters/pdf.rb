@@ -67,12 +67,25 @@ module Bookie
       end
 
       def build_paragraph(paragraph)
+        para_text = convert_inlines(paragraph.contents)
+
         draw do
           font("serif", size: 9) do
-            text(paragraph.contents.strip, align: :justify, leading: 2)
+            text(para_text, align: :justify, leading: 2, inline_format: true)
           end
           move_down in2pt(0.1)
         end
+      end
+
+      def convert_inlines(contents)
+        contents.map do |c|
+          case c
+          when Bookie::NormalText
+            c.contents
+          when Bookie::CodeText
+            "<color rgb='660000'><font name='mono' size='9'>#{c.contents}</font></color>"
+          end
+        end.join.strip
       end
 
       def build_raw_text(raw_text)

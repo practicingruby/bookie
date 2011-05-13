@@ -3,6 +3,8 @@ module Bookie
   RawText          = Struct.new(:contents)
   SectionHeading   = Struct.new(:contents)
   List             = Struct.new(:contents)
+  NormalText       = Struct.new(:contents)
+  CodeText         = Struct.new(:contents)
   
   class Parser
     def self.parse(raw_data, emitter=Bookie::Emitters::Null.new)
@@ -19,8 +21,25 @@ module Bookie
       parse_contents(raw_data)
     end
 
+    def extract_inlines(paragraph_text)
+      scanner = StringScanner.new(paragraph_text)
+      modes   = [NormalText, CodeText].cycle
+      output  = []
+
+      current_mode = modes.next
+      current_mode = modes.next if scanner.scan(/`/)
+
+      until scanner.eos?
+        output << current_mode.new(scanner.scan(/[^`]+/m))
+        current_mode = modes.next if scanner.scan(/`/)
+      end
+
+      output
+    end
+
     def extract_paragraph(paragraph_text)
-      paragraph = Paragraph.new(paragraph_text.gsub(/\s+/," "))
+      text_segments = extract_inlines(paragraph_text.gsub(/\s+/," "))
+      paragraph = Paragraph.new(text_segments)
       @emitter.build_paragraph(paragraph)
       parsed_content << paragraph
     end

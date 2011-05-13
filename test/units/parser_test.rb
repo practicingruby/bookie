@@ -12,7 +12,7 @@ context "A Parser" do
     assert_equal 8, parsed_content.length
 
     actual_paragraph      = parsed_content[4]
-    actual_paragraph_text = actual_paragraph.first
+    actual_paragraph_text = actual_paragraph.first[0].contents
 
     assert_equal sample_paragraph_text, actual_paragraph_text 
   end

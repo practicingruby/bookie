@@ -4,4 +4,5 @@ Gemfile.lock
 *.pdf
 *.epub
 *.mobi
+*.html
 .DS_Store

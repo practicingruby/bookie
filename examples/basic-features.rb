@@ -8,7 +8,9 @@ book.chapter "Multiple paragraphs", "#{fixture_dir}/multi_paragraph_document.md"
 book.chapter "Preformatted text blocks", "#{fixture_dir}/preformatted_blocks.md"
 book.chapter "Section headings", "#{fixture_dir}/document_with_headings.md"
 book.chapter "Unordered lists", "#{fixture_dir}/lists.md"
+book.chapter "Inline Formatting", "#{fixture_dir}/inline_formatting.md"
 
 book.render("bookie-basic-feature", [Bookie::Emitters::PDF.new,
                                      Bookie::Emitters::EPUB.new,
-                                     Bookie::Emitters::MOBI.new])
+                                     Bookie::Emitters::MOBI.new,
+                                     Bookie::Emitters::HTML.new])

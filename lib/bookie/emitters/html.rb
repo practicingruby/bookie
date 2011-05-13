@@ -16,7 +16,18 @@ module Bookie
       end
 
       def build_paragraph(paragraph)
-        @body << "<p>#{paragraph.contents}</p>"
+        @body << "<p>#{convert_inlines(paragraph.contents)}</p>"
+      end
+
+      def convert_inlines(contents)
+        contents.map do |c|
+          case c
+          when Bookie::NormalText
+            c.contents
+          when Bookie::CodeText
+            "<tt>#{c.contents}</tt>"
+          end
+        end.join.strip
       end
 
       def build_raw_text(raw_text)
