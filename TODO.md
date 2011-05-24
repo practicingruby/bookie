@@ -28,3 +28,5 @@
 * Need page numbers for PDF at least.
 
 * Need a parser that doesn't suck
+
+* Make inline code styling work in unordered lists.
