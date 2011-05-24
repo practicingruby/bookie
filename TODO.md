@@ -26,3 +26,5 @@
 * Need Table of Contents
 
 * Need page numbers for PDF at least.
+
+* Need a parser that doesn't suck

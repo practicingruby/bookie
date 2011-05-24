@@ -62,3 +62,7 @@ examples from <= 0.0.10. Move towards a book manifest type API. Much work needs
 
 Added rudimentary chapter support for EPUB, MOBI, and PDF. Render once per
 emitter rather than once per chapter per emitter (bugfix).
+
+## 0.0.13 (2011.05.23)
+
+Basic inline code formatting. Horrible parser needs to go away...
