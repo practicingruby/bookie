@@ -17,6 +17,8 @@ module Bookie
       emitters = [emitters] unless emitters.is_a? Array
 
       emitters.each do |emitter|
+        emitter = emitter.new if emitter.is_a? Class
+
         chapters.each_with_index do |(name, file), i|
           emitter.start_new_chapter(header: "Chapter #{i+1}",
                                     title:  name)
