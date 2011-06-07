@@ -66,6 +66,22 @@ module Bookie
         end
       end
 
+      def build_sub_section_heading(section_text)
+        draw do
+          start_new_page unless cursor > in2pt(0.4)
+
+          move_down in2pt(0.1)
+
+          float do
+            font("sans", :style => :bold, :size => 10) do
+              text(section_text.contents.strip)
+            end
+          end
+
+          move_down in2pt(0.3)
+        end
+      end
+
       def build_paragraph(paragraph)
         para_text = convert_inlines(paragraph.contents)
 

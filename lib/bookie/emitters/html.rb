@@ -38,6 +38,10 @@ module Bookie
         @body << "<h2>#{header.contents}</h2>"
       end
 
+      def build_sub_section_heading(header)
+        @body << "<h3>#{header.contents}</h3>"
+      end
+
       def build_list(list)
         list_elements = list.contents.map { |li| "<li>#{li}</li>" }.join
         @body << "<ul>"+list_elements+"</ul>"

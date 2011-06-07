@@ -10,6 +10,9 @@ module Bookie
       def build_section_heading(header)
       end
 
+      def build_sub_section_heading(header)
+      end
+
       def build_list(content)
       end
     end

@@ -1,10 +1,11 @@
 module Bookie
-  Paragraph        = Struct.new(:contents)
-  RawText          = Struct.new(:contents)
-  SectionHeading   = Struct.new(:contents)
-  List             = Struct.new(:contents)
-  NormalText       = Struct.new(:contents)
-  CodeText         = Struct.new(:contents)
+  Paragraph         = Struct.new(:contents)
+  RawText           = Struct.new(:contents)
+  SectionHeading    = Struct.new(:contents)
+  SubSectionHeading = Struct.new(:contents)
+  List              = Struct.new(:contents)
+  NormalText        = Struct.new(:contents)
+  CodeText          = Struct.new(:contents)
   
   class Parser
     def self.parse(raw_data, emitter=Bookie::Emitters::Null.new)
@@ -56,6 +57,12 @@ module Bookie
       parsed_content << header
     end
 
+    def extract_sub_section_heading(contents)
+      header = SubSectionHeading.new(contents.chomp)
+      @emitter.build_sub_section_heading(header)
+      parsed_content << header
+    end
+
     def extract_list(contents)
       list = List.new(contents.map { |e| e.chomp })
       @emitter.build_list(list)
@@ -75,6 +82,8 @@ module Bookie
           case line
           when /^## /
             extract_section_heading(line[3..-1])
+          when /^### /
+            extract_sub_section_heading(line[4..-1])
           when /^ {4,}/
             mode = :raw 
             chunk = line[4..-1]
