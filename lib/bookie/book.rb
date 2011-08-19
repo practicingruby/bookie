@@ -14,7 +14,11 @@ module Bookie
     # FIXME: This is inefficient, it should be possible to fire up the parser
     # just once with many emitters.
     def render(basename, emitters)
+      emitters = *emitters
+
       emitters.each do |emitter|
+        emitter = emitter.new if emitter.is_a? Class
+
         chapters.each_with_index do |(name, file), i|
           emitter.start_new_chapter(header: "Chapter #{i+1}",
                                     title:  name)
