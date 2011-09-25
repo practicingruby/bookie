@@ -1,14 +1,26 @@
 require_relative "../test_helper"
+require 'redcarpet'
 
 context "A Parser" do
+
+  def setup
+    @parser = Bookie::Parser.new
+    @markdown = Redcarpet::Markdown.new(@parser)
+  end
+
   test "should know about paragraphs" do
+
+
     sample_text           = File.read(fixture("multi_paragraph_document.md"))
 
     # NOTE: Is this the behavior we'd expect?
+    # NOTE: gjp added strip - paragraph should not include trailing space
     sample_paragraph_text = File.read(fixture("single_paragraph.md"))
-                                .gsub(/\s+/," ")
-    parsed_content        = Bookie::Parser.parse(sample_text)
-   
+                                .gsub(/\s+/," ").strip
+
+    @markdown.render(sample_text)
+    parsed_content = @parser.parsed_content
+
     assert_equal 8, parsed_content.length
 
     actual_paragraph      = parsed_content[4]
@@ -19,14 +31,18 @@ context "A Parser" do
 
   test "should know about preformatted text" do
     sample_text    = File.read(fixture("preformatted_blocks.md"))
-    parsed_content = Bookie::Parser.parse(sample_text)
+
+    @markdown.render(sample_text)
+    parsed_content = @parser.parsed_content
    
     assert_equal 6, parsed_content.length
   end
 
   test "should know about section headers" do
     sample_text    = File.read(fixture("document_with_headings.md"))
-    parsed_content = Bookie::Parser.parse(sample_text)
+
+    @markdown.render(sample_text)
+    parsed_content = @parser.parsed_content
 
     assert_equal 17, parsed_content.length
 
@@ -38,7 +54,9 @@ context "A Parser" do
 
   test "should know about list elements" do
     sample_text    = File.read(fixture("lists.md"))
-    parsed_content = Bookie::Parser.parse(sample_text)
+
+    @markdown.render(sample_text)
+    parsed_content = @parser.parsed_content
 
     assert_equal 3, parsed_content.length
 

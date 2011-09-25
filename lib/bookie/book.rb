@@ -11,8 +11,6 @@ module Bookie
       chapters << [name, file]
     end
 
-    # FIXME: This is inefficient, it should be possible to fire up the parser
-    # just once with many emitters.
     def render(basename, emitters)
       emitters.each do |emitter|
         markdown = Redcarpet::Markdown.new(Bookie::Parser.new(emitter))
