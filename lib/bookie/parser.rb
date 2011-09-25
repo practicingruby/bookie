@@ -26,7 +26,6 @@ module Bookie
     def paragraph(text)
       flush_paragraph
       @paragraph = text
-      text
     end
 
     def block_code(code, language)
