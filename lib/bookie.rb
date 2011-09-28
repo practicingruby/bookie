@@ -7,6 +7,8 @@ require "strscan"
 require "prawn"
 require "eeepub"
 
+require "redcarpet"
+
 require_relative "bookie/version"
 require_relative "bookie/parser"
 require_relative "bookie/emitters"
