@@ -6,19 +6,55 @@ module Bookie
   NormalText       = Struct.new(:contents)
   CodeText         = Struct.new(:contents)
   
-  class Parser
-    def self.parse(raw_data, emitter=Bookie::Emitters::Null.new)
-      parser = new(raw_data, emitter)
-      parser.parsed_content
-    end
+  class Parser < Redcarpet::Render::Base
 
     attr_reader :parsed_content
 
-    def initialize(raw_data, emitter)
+    def initialize(emitter=Bookie::Emitters::Null.new)
       @emitter        = emitter
       @parsed_content = []
 
-      parse_contents(raw_data)
+      super()
+    end
+
+    def header(text, header_level)
+      flush_paragraph
+      extract_section_heading(text)
+      text
+    end
+
+    def paragraph(text)
+      flush_paragraph
+      @paragraph = text
+    end
+
+    def block_code(code, language)
+      flush_paragraph
+      extract_raw_text(code)
+      code
+    end
+
+    def list(contents, list_type)
+      flush_paragraph
+      extract_list(contents.split("\n"))
+      contents
+    end
+
+    def list_item(text, list_type)
+      @paragraph = nil
+      text + "\n"
+    end
+
+    def doc_footer
+      flush_paragraph
+    end
+
+  private
+    def flush_paragraph
+      if @paragraph
+        extract_paragraph(@paragraph) 
+        @paragraph = nil 
+      end
     end
 
     def extract_inlines(paragraph_text)
@@ -47,7 +83,7 @@ module Bookie
     def extract_raw_text(contents)
       raw_text = RawText.new(contents)
       @emitter.build_raw_text(raw_text)
-      parsed_content << raw_text      
+      parsed_content << raw_text
     end
 
     def extract_section_heading(contents)
@@ -57,66 +93,9 @@ module Bookie
     end
 
     def extract_list(contents)
-      list = List.new(contents.map { |e| e.chomp })
+      list = List.new(contents)
       @emitter.build_list(list)
       parsed_content << list
-    end
-
-    private
-
-    def parse_contents(raw_data)
-      lines = raw_data.lines.to_a
-      mode  = nil
-
-      until lines.empty?
-        line = lines.shift
-        case
-        when mode == nil
-          case line
-          when /^## /
-            extract_section_heading(line[3..-1])
-          when /^ {4,}/
-            mode = :raw 
-            chunk = line[4..-1]
-          when /^\* /
-            mode   = :list
-            chunk  = [line[2..-1]]
-          else 
-            mode = :paragraph
-            chunk = line
-          end
-        when mode == :raw
-          chunk << (line.strip.empty? ? "\n" : line[4..-1].to_s)
-
-          if lines.first =~ /^ {0,3}\S/
-            mode = nil
-            extract_raw_text(chunk)
-          end
-        when mode == :list
-          chunk << line[2..-1].to_s unless line.strip.empty?
-
-          if lines.first.to_s.strip.length > 0 && lines.first !~ /^\*/
-            mode = nil
-            extract_list(chunk)
-          end
-        when mode == :paragraph
-          if line.chomp.empty?
-            mode = nil 
-            extract_paragraph(chunk)
-          else
-            chunk << line
-          end
-        end
-      end
-
-      case mode
-      when :paragraph
-        extract_paragraph(chunk)
-      when :raw
-        extract_raw_text(chunk)
-      when :list
-        extract_list(chunk)
-      end
     end
   end
 end
