@@ -4,9 +4,6 @@
   hang together, but is as of right now untested and hard codes several
   assumptions that should probably be configurable.
 
-* QUESTION: To what extent should the parser mess with whitespace characters?
-  Currently aggressively mangling whitespace as needed.
-
 * Look into generating ePub from scratch. eeepub is straightforward but we could
   better.
 
@@ -26,7 +23,5 @@
 * Need Table of Contents
 
 * Need page numbers for PDF at least.
-
-* Need a parser that doesn't suck
 
 * Make inline code styling work in unordered lists.

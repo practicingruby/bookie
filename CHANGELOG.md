@@ -66,3 +66,7 @@ emitter rather than once per chapter per emitter (bugfix).
 ## 0.0.13 (2011.05.23)
 
 Basic inline code formatting. Horrible parser needs to go away...
+
+## 0.0.14 (2011.10.7)
+
+Improved parser (using RedCarpet 2) thanks to Gregory Parkhurst
